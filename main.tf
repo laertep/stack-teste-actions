@@ -24,3 +24,23 @@ tags = {
   Owner       = "laerte"
  }
 }
+
+resource "aws_s3_bucket_website_configuration" "bucketlaerte" {
+  bucket = aws_s3_bucket.bucketlaerte10.bucket
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "error.html"
+  }
+}
+
+resource "aws_s3_object" "page_index" {
+  bucket       = aws_s3_bucket.bucketlaerte10.bucket
+  key          = "index.html"
+  content_type = "text/html; character=UTF-8"
+  source       = "website/index.html"
+  etag         = filemd5("website/index.html")
+}
